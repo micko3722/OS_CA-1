@@ -1,0 +1,13 @@
+
+-Run code using: gcc process.h main.c -o ./build/main -Wextra -Wall -Wpedantic
+
+Refrences --- Michael Pisani, D00167295
+---------------------------------------------------------------
+
+-R1. Ln 15 Main.c
+
+	Storing Sruct in Array, https://stackoverflow.com/questions/10468128/how-do-you-make-an-array-of-structs-in-c	
+
+-R2. Ln 16 Process.h 'Used in all sort methods'
+	sort struct array by burst time (used in fifo to sort at), Reccomeneded bubble sort by Nichita Postalachi CO4 b,
+	https://hackr.io/blog/bubble-sort-in-c

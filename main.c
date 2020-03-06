@@ -13,7 +13,7 @@ int main(int argc,char* argv[])
 	if((argc-1)!=0 && ((argc-1) %2)==0)
 	{
 		//auto Increment ID's, -------REFRENCE----- Storing Sruct in Array, https://stackoverflow.com/questions/10468128/how-do-you-make-an-array-of-structs-in-c				 		 
-		// store struct arrray on heap, so it can be used in other functions
+		// store struct arrray on heap, so it can be used in other functions in process.h
 		process *arr_p = malloc(argc * sizeof(arr_p));
 		int count = 0;
 		for(int i=1;i<=argc-1;i+=2)

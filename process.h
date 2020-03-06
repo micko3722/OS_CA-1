@@ -148,7 +148,7 @@ void fifo(process arr_p[],int argc)
 	avgresp = (avgresp/arr_c);
 	printf("\n----------------------\nAverage Turn Around: %lf\nAverage Response Time: %lf\n",avgturn,avgresp);
 
-};
+}
 
 void sjf(process arr_p[],int argc)
 {
@@ -200,25 +200,25 @@ void sjf(process arr_p[],int argc)
 
 void rr(process arr_p[],int argc)
 {
-	//intialize for turnaround and average turnaround
-	int turn=0;
-	double avgturn=0;
-	//intialize response time
-	int resp=0;
-	double avgresp=0;
-	// count of array elements
-	int arr_c = (argc-1)/2;
-	// completion time
-	int comptime=0;
-	int firstturn=0;
-	// Intialize Timeline
-	int timeline = 0;
-	int tot_btime = 0;
+	// //intialize for turnaround and average turnaround
+	// int turn=0;
+	// double avgturn=0;
+	// //intialize response time
+	// int resp=0;
+	// double avgresp=0;
+	// // count of array elements
+	// int arr_c = (argc-1)/2;
+	// // completion time
+	// int comptime=0;
+	// int firstturn=0;
+	// // Intialize Timeline
+	// int timeline = 0;
+	// int tot_btime = 0;
 	int time_q = 5;
 		printf("\n----------------------\nRound Robin TIMELINE\n----------------------\n");
 	// sort by arrival time
-	process temp;
-	sort_by_at(arr_p,argc);
+	// process temp;
+	// sort_by_at(arr_p,argc);
 
 	printf("\nTime Quantum = %d\n",time_q);
 
@@ -255,17 +255,18 @@ void rr(process arr_p[],int argc)
 
 void stcf(process arr_p[],int argc)
 {
-		//intialize for turnaround and average turnaround
-	int turn=0;
-	double avgturn=0;
-	//intialize response time
-	int resp=0;
-	double avgresp=0;
+	//intialize for turnaround and average turnaround
+	// int turn=0;
+	// double avgturn=0;
+	// //intialize response time
+	// int resp=0;
+	// double avgresp=0;
+	// // completion time
+	// int comptime=0;
+	// int firstturn=0;
+
 	// count of array elements
 	int arr_c = (argc-1)/2;
-	// completion time
-	int comptime=0;
-	int firstturn=0;
 
 	// Intialize Timeline
 	int time = 0;
@@ -273,7 +274,6 @@ void stcf(process arr_p[],int argc)
 	int rem = 0;
 	//total bt
 	int tot_bt =0;
-	int wait =0;
 	int c =1;
 	process temp;
 	sort_by_bt(arr_p,argc);
@@ -322,6 +322,7 @@ void stcf(process arr_p[],int argc)
 		
 	}
 	while(time!=tot_bt);	
+
 }
 void getavgs(process arr_p[],int argc)
 {
