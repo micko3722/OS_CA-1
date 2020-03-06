@@ -45,7 +45,7 @@ void sort_by_bt(process arr_p[],int argc)
 			for(int j=1;j<=(arr_c -i);++j)
 			{
 				//compare at, skip if at = 0
-				if(arr_p[j].bt>arr_p[j+1].bt && arr_p[j].bt!=arr_p[j+1].bt )
+				if(arr_p[j].bt>arr_p[j+1].bt && arr_p[j].bt!=arr_p[j+1].bt &&  arr_p[j].at!=0)
 				{
 				temp = arr_p[j];
 				arr_p[j] = arr_p[j+1];
@@ -78,6 +78,37 @@ void sort_by_at(process arr_p[],int argc)
 					
 	}
 
+}
+void sort_by_rem(process arr_p[],int argc,int time)
+{
+	sort_by_at(arr_p,argc);
+	//printf("im here");
+	int arr_c = (argc-1)/2;
+	//printf("\nT = %d  P%d\n", timeline,arr_p[1].id);
+	int rem = 0;
+	process temp;
+	for(int i=1;i<=2;++i)
+	{
+		//calculate reminder
+		rem = arr_p[i].bt - arr_p[i+1].at;
+		printf("\n calculating %d - %d = %d\n",arr_p[i].bt,arr_p[i+1].at,rem);
+		// premept 
+		arr_p[i].bt = arr_p[i].bt - rem;
+		for(int j=1;j<=(arr_c -i);++j)
+			{
+				if(rem>arr_p[j].bt)
+				{
+					time+=arr_p[i+1].at;
+					printf("\nT = %d  P%d\n",time,arr_p[i+1].id);
+					temp = arr_p[j];
+					arr_p[j] = arr_p[j+1];
+					arr_p[j+1]=temp;
+					printf("\n next P%d\n",arr_p[j+1].id);
+				}
+			}
+		
+		//timeline+= arr_p[i].bt - arr_p[i+1].bt;
+	}
 }
 
 //function to print all process
@@ -207,70 +238,136 @@ void rr(process arr_p[],int argc)
 		printf("\n----------------------\nRound Robin TIMELINE\n----------------------\n");
 	// sort by arrival time
 	process temp;
-	for(int i=1;i<=arr_c;++i)
-	{
-		//store current struct in temp
-		temp = arr_p[i];
-		tot_btime+=arr_p[i].bt;
-			
-			for(int j=1;j<=(arr_c -i);++j)
-			{
-				//sort array by at
-				if(arr_p[j].at>arr_p[j+1].at )
-				{
-				temp = arr_p[j];
-				arr_p[j] = arr_p[j+1];
-				arr_p[j+1]=temp;
-				}
-			}
-					
-	}
+	sort_by_at(arr_p,argc);
 
 	printf("\nTime Quantum = %d\n",time_q);
 
-	int count =1;
-	while(tot_btime>=0)
-	{
-		if(count==1)
-		{
-			printf("\nT = %d  P%d\n", timeline,arr_p[count].id);
-		}
+	// int count =1;
+	// while(tot_btime>=0)
+	// {
+	// 	if(count==1)
+	// 	{
+	// 		printf("\nT = %d  P%d\n", timeline,arr_p[count].id);
+	// 	}
 
-	    if(arr_p[count].bt<5)
+	//     if(arr_p[count].bt<5)
+	// 	{
+	// 		//printf("\ntotal burst time = %d\n",tot_btime);
+	// 		timeline+=arr_p[count].bt;
+	// 		tot_btime-=arr_p[count].bt;
+	// 		count++;
+	// 		printf("\nT = %d  P%d\n", timeline,arr_p[count].id);
+	// 	}
+	// 	else
+	// 	{
+	// 		timeline+=5;
+	// 		tot_btime-=5;
+	// 		arr_p[count].bt = arr_p[count].bt-5;
+	// 		printf("\nT = %d  P%d\n", timeline,arr_p[count].id);
+	//  		tot_btime-=5;
+	// 		timeline+=5;
+	// 		printf("\nT = %d  P%d\n", timeline,arr_p[count+1].id);
+
+	// 	}
+
+	// }
+}
+
+void stcf(process arr_p[],int argc)
+{
+		//intialize for turnaround and average turnaround
+	int turn=0;
+	double avgturn=0;
+	//intialize response time
+	int resp=0;
+	double avgresp=0;
+	// count of array elements
+	int arr_c = (argc-1)/2;
+	// completion time
+	int comptime=0;
+	int firstturn=0;
+
+	// Intialize Timeline
+	int time = 0;
+	//remainder
+	int rem = 0;
+	//total bt
+	int tot_bt =0;
+	int c =1;
+	process temp;
+	sort_by_bt(arr_p,argc);
+
+	
+	//get total bt
+	for(int i=1;i<=arr_c;++i)
+	{
+		tot_bt+=arr_p[i].bt;
+	}	
+    
+	do
+	{
+		rem = arr_p[c].bt - arr_p[c+1].at;
+		printf("\n %d - %d = %d",arr_p[c].bt,arr_p[c+1].at,rem);
+		if((arr_p[c+1].bt-rem)<(arr_p[c].bt -rem))
 		{
-			//printf("\ntotal burst time = %d\n",tot_btime);
-			timeline+=arr_p[count].bt;
-			tot_btime-=arr_p[count].bt;
-			count++;
-			printf("\nT = %d  P%d\n", timeline,arr_p[count].id);
+			time+=arr_p[c+1].at;
+			printf("\n T = %d P%d\n",time,arr_p[c+1].id);
+			arr_p[c].bt = arr_p[c].bt - rem;
+			//swap position, prempt
+			temp = arr_p[c];
+			arr_p[c] = arr_p[c+1];
+			arr_p[c+1]=temp;
+
+			c++;
+			
+			tot_bt=tot_bt-rem;
+			printf("\n total bt = %d\n",tot_bt);
 		}
 		else
 		{
-			timeline+=5;
-			tot_btime-=5;
-			arr_p[count].bt = arr_p[count].bt-5;
-			printf("\nT = %d  P%d\n", timeline,arr_p[count].id);
-	 		tot_btime-=5;
-			timeline+=5;
-			printf("\nT = %d  P%d\n", timeline,arr_p[count+1].id);
-
+			time+=arr_p[c+1].at;
+			arr_p[c].bt = arr_p[c].bt - arr_p[c+1].bt;
+			printf("\nT = %d P%d\n",time,arr_p[c+1].id);
+			c++;
+			tot_bt=tot_bt-arr_p[c].bt;
+			printf("\n total bt = %d\n",tot_bt);
 		}
-
+		
 	}
+	while(c!=4);
+
+	// for(int i=1;i<=arr_c;++i)
+	// {		
+	// 	sort_by_rem(arr_p,argc);
+	// 	printf("\nT = %d  P%d\n", timeline,arr_p[i].id);
+	// 	timeline+=arr_p[i].bt;
+	// 	//get the completion time
+	// 	comptime+= arr_p[i].bt;
+	// 	//get the average turn around time
+	// 	turn = (comptime - arr_p[i].at);
+	// 	//add each turn around
+	// 	avgturn += turn;
+		
+	// 	//skip first element when cal Response
+	// 	if(arr_p[i].at!= 0)
+	// 	{
+	// 		// calculate all response times
+	// 		firstturn += arr_p[i-1].bt;
+	// 		resp = (firstturn - arr_p[i].at);
+	// 		avgresp +=resp;
+	// 		//printf("\nresponse time= %d-%d = %d\n  Avg = %lf\n",firstturn,arr_p[i].at,resp,avgresp);
+	// 	}
+	// }
+	// //divide to get average Turn around & Response time;
+	// avgturn = (avgturn/arr_c);
+	// avgresp = (avgresp/arr_c);
+	
+	
+
+	
 }
 
 void compare_sch(process arr_p[],int argc)
 {
-	//intialize for average turnaround
-	double avgturn=0;
-	//intialize average response time
-	double avgresp=0;
-
-
-
-	printf("\n--\nFIFO\n--\n Average Turnaround = %f\nAverage Reponse Time = %f\n",avgturn,avgresp);
-
-	printf("\n--\nSJF\n--\nAverage Turnaround = %f\nAverage Reponse Time = %f\n",avgturn,avgresp);
-	
 
 }

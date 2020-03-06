@@ -1,6 +1,5 @@
 #include "process.h"
 
-// check arguements are numbers, sort for 
 int main(int argc,char* argv[])
 {
 	// Intilaize Input String
@@ -42,7 +41,7 @@ int main(int argc,char* argv[])
 			print_process(arr_p,argc);
 			do
 			{ 
-				printf("\n---------------------\nCommand List\n---------------------\n1. fifo -- FIFO scheduling \n2. sjf -- SJF scheduling\n3. rr -- Round Robin\n4. compare -- compare scheduling\n5. quit -- Exit program\n---------------------\n");		
+				printf("\n---------------------\nCommand List\n---------------------\n1. fifo -- FIFO scheduling \n2. sjf -- SJF scheduling\n4. stcf-- STCF\n3. rr -- Round Robin(Not working)\n4. compare -- compare scheduling\n5. quit -- Exit program\n---------------------\n");		
 				//Take in User input
 				printf("\nPlease Enter Input \n> ");
 				// to lower converts to lowercase, avoid if statements checking uppercase
@@ -58,6 +57,10 @@ int main(int argc,char* argv[])
 					else if(strcmp(input,"sjf")==0)
 					{
 						sjf(arr_p,argc);
+					}
+					else if(strcmp(input,"stcf")==0)
+					{
+						stcf(arr_p,argc);
 					}
 					else if(strcmp(input,"rr")==0)
 					{
