@@ -293,6 +293,7 @@ void stcf(process arr_p[],int argc)
 	int rem = 0;
 	//total bt
 	int tot_bt =0;
+	int wait =0;
 	int c =1;
 	process temp;
 	sort_by_bt(arr_p,argc);
@@ -303,65 +304,44 @@ void stcf(process arr_p[],int argc)
 	{
 		tot_bt+=arr_p[i].bt;
 	}	
-    
+	//print & get rem first element
+    printf("\nT = %d P%d\n",time,arr_p[1].id);
+	rem = arr_p[1].bt - arr_p[2].at;
+	// do until tot bt has been reached
 	do
-	{
-		rem = arr_p[c].bt - arr_p[c+1].at;
-		printf("\n %d - %d = %d",arr_p[c].bt,arr_p[c+1].at,rem);
-		if((arr_p[c+1].bt-rem)<(arr_p[c].bt -rem))
-		{
-			time+=arr_p[c+1].at;
-			printf("\n T = %d P%d\n",time,arr_p[c+1].id);
-			arr_p[c].bt = arr_p[c].bt - rem;
-			//swap position, prempt
-			temp = arr_p[c];
-			arr_p[c] = arr_p[c+1];
-			arr_p[c+1]=temp;
-
-			c++;
+	{ 	
 			
-			tot_bt=tot_bt-rem;
-			printf("\n total bt = %d\n",tot_bt);
-		}
-		else
-		{
-			time+=arr_p[c+1].at;
-			arr_p[c].bt = arr_p[c].bt - arr_p[c+1].bt;
-			printf("\nT = %d P%d\n",time,arr_p[c+1].id);
-			c++;
-			tot_bt=tot_bt-arr_p[c].bt;
-			printf("\n total bt = %d\n",tot_bt);
-		}
+			if((arr_p[c+1].bt-rem)<(arr_p[c].bt -rem))
+			{
+				time+=arr_p[c+1].at;
+				printf("\nT = %d P%d\n",time,arr_p[c+1].id);
+				arr_p[c].bt = arr_p[c].bt - rem;
+				
+				//swap position, prempt
+				temp = arr_p[c];
+				arr_p[c] = arr_p[c+1];
+				arr_p[c+1]=temp;
+
+				time+=arr_p[c].bt;
+				printf("\nT = %d P%d\n",time,arr_p[c+1].id);
+				c++;				
+
+			}
+			else
+			{	
+				
+				printf("\nT = %d P%d\n",time + rem,arr_p[c+1].id);				
+				c++;
+				rem+= arr_p[c].bt;
+				time+=rem;
+				
+				printf("\nT = %d P%d\n",time,arr_p[c].id);
+				c++;
+						
+		}	
 		
 	}
-	while(c!=4);
-
-	// for(int i=1;i<=arr_c;++i)
-	// {		
-	// 	sort_by_rem(arr_p,argc);
-	// 	printf("\nT = %d  P%d\n", timeline,arr_p[i].id);
-	// 	timeline+=arr_p[i].bt;
-	// 	//get the completion time
-	// 	comptime+= arr_p[i].bt;
-	// 	//get the average turn around time
-	// 	turn = (comptime - arr_p[i].at);
-	// 	//add each turn around
-	// 	avgturn += turn;
-		
-	// 	//skip first element when cal Response
-	// 	if(arr_p[i].at!= 0)
-	// 	{
-	// 		// calculate all response times
-	// 		firstturn += arr_p[i-1].bt;
-	// 		resp = (firstturn - arr_p[i].at);
-	// 		avgresp +=resp;
-	// 		//printf("\nresponse time= %d-%d = %d\n  Avg = %lf\n",firstturn,arr_p[i].at,resp,avgresp);
-	// 	}
-	// }
-	// //divide to get average Turn around & Response time;
-	// avgturn = (avgturn/arr_c);
-	// avgresp = (avgresp/arr_c);
-	
+	while(time!=tot_bt);
 	
 
 	
