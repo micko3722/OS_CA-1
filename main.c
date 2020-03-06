@@ -22,6 +22,7 @@ int main(int argc,char* argv[])
 			if(atoi(argv[i])>=0 && atoi(argv[i+1])>0)
 			{		  
 		  		count++;
+				//add to struct array
 				arr_p[count].id = count;
 				arr_p[count].at = atoi(argv[i]);
 				arr_p[count].bt = atoi(argv[i+1]);

@@ -10,26 +10,6 @@ typedef struct
 	int bt;
 } process;
 
-// //https://stackoverflow.com/questions/29248585/c-checking-command-line-argument-is-integer-or-not
-// int isNumber(char argv[])
-// {
-    
-
-//     //checking for negative numbers
-//     if (argv[0] == '-')
-// 	{
-        
-//     	for (int i = 1; atoi(argv[i]) != 0; i++)
-//     	{
-//         //if (number[i] > '9' || number[i] < '0')
-//         	if (!isdigit(atoi(argv[i])))
-// 			{
-//             	return -1;
-// 			}
-//     	}
-// 	}
-//     return 1;
-// }
 
 void sort_by_bt(process arr_p[],int argc)
 {
@@ -341,13 +321,58 @@ void stcf(process arr_p[],int argc)
 		}	
 		
 	}
-	while(time!=tot_bt);
-	
-
-	
+	while(time!=tot_bt);	
 }
+void getavgs(process arr_p[],int argc)
+{
+		//intialize for turnaround and average turnaround
+	int turn=0;
+	double avgturn=0;
+	//intialize response time
+	int resp=0;
+	double avgresp=0;
+	// count of array elements
+	int arr_c = (argc-1)/2;
+	// completion time
+	int comptime=0;
+	int firstturn=0;
+	
+	for(int i=1;i<=arr_c;++i)
+	{		
+		//get the completion time
+		comptime+= arr_p[i].bt;
+		//get the average turn around time
+		turn = (comptime - arr_p[i].at);
+		//add each turn around
+		avgturn += turn;
+		
+		//skip first element when cal Response
+		if(arr_p[i].at!= 0)
+		{
+			// calculate all response times
+			firstturn += arr_p[i-1].bt;
+			resp = (firstturn - arr_p[i].at);
+			avgresp +=resp;
+		}
 
+	}
+	avgturn = (avgturn/arr_c);
+	avgresp = (avgresp/arr_c);
+	printf("Avg Turn Around: %lf\nAvg Response Time: %lf\n----------------------\n",avgturn,avgresp);
+
+} 
 void compare_sch(process arr_p[],int argc)
 {
 
+	sort_by_at(arr_p,argc);
+	printf("\n----------------------\nFIFO\n----------------------\n");
+	getavgs(arr_p,argc);
+
+
+
+	sort_by_bt(arr_p,argc);
+	printf("\n----------------------\nSJF\n----------------------\n");
+	getavgs(arr_p,argc);
+
+	
 }
